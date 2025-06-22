@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WHISK Framework - Enhanced Risk Assessment</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --danger: #dc2626;
+            --success: #059669;
+            --warning: #d97706;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --card-bg: #ffffff;
+            --section-bg: #f1f5f9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--section-bg);
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .assessment-mode-selector {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .assessment-mode-selector label {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 7px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        .assessment-mode-selector input {
+            display: none;
+        }
+        .assessment-mode-selector input:checked + label {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .framework-section {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        #chained-vulnerability-assessment .framework-section {
+            border: 2px dashed var(--light-gray);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+        
+        select, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            background: white;
+            font-size: 1rem;
+        }
+        
+        .sub-options {
+            margin-top: 10px;
+            padding-left: 20px;
+            border-left: 2px solid var(--light-gray);
+        }
+        
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-weight: normal;
+            cursor: pointer;
+        }
+        
+        .checkbox-group input {
+            margin-right: 10px;
+        }
+        
+        .results-panel {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .risk-score-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .risk-score {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+        
+        .risk-level {
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .breakdown-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .breakdown-title {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .breakdown-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+        
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            transition: background 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--gray);
+        }
+        .btn-secondary:hover {
+            background-color: var(--dark);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            font-size: 0.9rem;
+            padding: 5px 10px;
+            margin: 0;
+        }
+       
+        .vulnerability-chain-controls {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .vulnerability-subclass {
+            position: relative;
+            padding-top: 30px;
+        }
+
+        .vulnerability-subclass .remove-subclass-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .chain-results-container {
+            margin-top: 20px;
+        }
+        
+        .prioritization-list, .risk-reduction-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .prioritization-list li, .risk-reduction-list li {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .prioritization-list li .prio-level-1 { font-weight: bold; color: #f87171; }
+        .prioritization-list li .prio-level-2 { font-weight: bold; color: #fbbf24; }
+        .prioritization-list li .prio-level-3 { font-weight: bold; color: #a3e635; }
+
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .breakdown-grid {
+                grid-template-columns: 1fr;
+            }
+            .risk-score {
+                font-size: 2.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>WHISK Framework</h1>
+            <div class="subtitle">Enhanced Payment Security Risk Assessment</div>
+        </header>
+
+        <div class="assessment-mode-selector">
+            <input type="radio" id="mode-single" name="assessment-mode" value="single" checked>
+            <label for="mode-single">Single Vulnerability</label>
+            <input type="radio" id="mode-chain" name="assessment-mode" value="chain">
+            <label for="mode-chain">Chained Vulnerability</label>
+        </div>
+
+        <!-- Single Vulnerability Assessment -->
+        <div id="single-vulnerability-assessment">
+            <div id="single-vulnerability-form">
+                <!-- This will be a clone of the template -->
+            </div>
+            <button class="btn" id="calculateBtn">Calculate Risk Score</button>
+            <div class="results-panel" id="single-results-panel">
+                <h2>Risk Assessment Results</h2>
+                <div class="risk-score-container">
+                    <div class="risk-score" id="riskScore">0</div>
+                    <div class="risk-level" id="riskLevel">MINIMAL RISK</div>
+                </div>
+                <div class="breakdown-grid">
+                    <div class="breakdown-card">
+                        <div class="breakdown-title">CVSS Base Score</div>
+                        <div class="breakdown-value" id="baseScore">0.0</div>
+                    </div>
+                    <div class="breakdown-card">
+                        <div class="breakdown-title">Data Impact</div>
+                        <div class="breakdown-value" id="dataImpact">1.0x</div>
+                    </div>
+                    <div class="breakdown-card">
+                        <div class="breakdown-title">Business Impact</div>
+                        <div class="breakdown-value" id="businessImpact">1.0x</div>
+                    </div>
+                    <div class="breakdown-card">
+                        <div class="breakdown-title">PCI DSS Impact</div>
+                        <div class="breakdown-value" id="pciMod">1.0x</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chained Vulnerability Assessment -->
+        <div id="chained-vulnerability-assessment" style="display: none;">
+            <div id="vulnerability-chain-container">
+                <!-- Vulnerability subclasses will be added here -->
+            </div>
+            <div class="vulnerability-chain-controls">
+                <button class="btn btn-secondary" id="addVulnerabilityBtn">+ Add Vulnerability to Chain</button>
+            </div>
+            <button class="btn" id="calculateChainBtn">Calculate Overall Chain Risk</button>
+             <div class="results-panel" id="chain-results-panel" style="display: none;">
+                <h2>Overall Chain Risk Assessment</h2>
+                <div class="risk-score-container">
+                    <div class="risk-score" id="overallRiskScore">0</div>
+                    <div class="risk-level" id="overallRiskLevel">MINIMAL RISK</div>
+                </div>
+
+                <div class="chain-results-container">
+                    <h3>Individual Vulnerability Scores</h3>
+                    <div id="individual-scores-container" class="breakdown-grid">
+                        <!-- Individual scores will be populated here -->
+                    </div>
+                </div>
+
+                <div class="chain-results-container">
+                    <h3>Prioritization Recommendations</h3>
+                    <ul id="prioritization-list" class="prioritization-list">
+                        <!-- Prioritization items will be populated here -->
+                    </ul>
+                </div>
+
+                 <div class="chain-results-container">
+                    <h3>Impact of Fixing Each Vulnerability</h3>
+                    <ul id="risk-reduction-list" class="risk-reduction-list">
+                        <!-- Risk reduction items will be populated here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template for a single vulnerability assessment form -->
+    <template id="vulnerability-template">
+        <div class="framework-section vulnerability-subclass">
+             <button class="btn btn-danger remove-subclass-btn" style="display: none;">Remove</button>
+             <div class="form-group">
+                <label for="vulnerabilityName">Vulnerability Name/Identifier</label>
+                <input type="text" class="vulnerabilityName" placeholder="e.g., SQL Injection in Orders API">
+             </div>
+
+            <h2>CVSS v3.1 Base Metrics</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="attackVector">Attack Vector</label>
+                    <select class="attackVector">
+                        <option value="N">Network (N)</option>
+                        <option value="A">Adjacent (A)</option>
+                        <option value="L">Local (L)</option>
+                        <option value="P">Physical (P)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="attackComplexity">Attack Complexity</label>
+                    <select class="attackComplexity">
+                        <option value="L">Low (L)</option>
+                        <option value="H">High (H)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="userRole">Privileges Required</label>
+                    <select class="userRole">
+                        <option value="new_merchant">Newly signed up merchant (unverified)</option>
+                        <option value="manager">Merchant general user/manager</option>
+                        <option value="admin">Merchant admin (verified account)</option>
+                        <option value="customer">Customer of merchant</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="userInteraction">User Interaction</label>
+                    <select class="userInteraction">
+                        <option value="R">Required</option>
+                        <option value="N">None</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="scope">Scope</label>
+                    <select class="scope">
+                        <option value="U">Unchanged</option>
+                        <option value="C">Changed</option>
+                    </select>
+                </div>
+            </div>
+
+            <h2>Impact Metrics</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="confidentiality">Confidentiality Impact</label>
+                    <select class="confidentiality">
+                        <option value="H">High</option>
+                        <option value="L">Low</option>
+                        <option value="N" selected>None</option>
+                    </select>
+                    <div class="sub-options confSubOptions" style="display:none;">
+                        <div class="sub-option">
+                            <label for="confDataSensitivity">Data Sensitivity</label>
+                            <select class="confDataSensitivity"></select>
+                        </div>
+                        <div class="sub-option confSubclassOptions">
+                            <label for="confDataSubclass">Data Subclass</label>
+                            <select class="confDataSubclass"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="integrity">Integrity Impact</label>
+                    <select class="integrity">
+                        <option value="H">High</option>
+                        <option value="L">Low</option>
+                        <option value="N" selected>None</option>
+                    </select>
+                    <div class="sub-options intSubOptions" style="display:none;">
+                        <div class="sub-option">
+                            <label for="intDataSensitivity">Data Sensitivity</label>
+                            <select class="intDataSensitivity"></select>
+                        </div>
+                        <div class="sub-option intSubclassOptions">
+                            <label for="intDataSubclass">Data Subclass</label>
+                            <select class="intDataSubclass"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="availability">Availability Impact</label>
+                    <select class="availability">
+                        <option value="H">High</option>
+                        <option value="L">Low</option>
+                        <option value="N" selected>None</option>
+                    </select>
+                </div>
+            </div>
+
+            <h2>Helcim-Specific Parameters</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="assetClass">Asset Class Affected</label>
+                    <select class="assetClass">
+                        <option value="critical">*.helcim.com (Critical)</option>
+                        <option value="high">*.myhelcim.com (High)</option>
+                        <option value="medium" selected>*.helcim.app (Medium)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Privilege Escalation</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" class="cross_read"> Cross-merchant privilege escalation (read)</label>
+                        <label><input type="checkbox" class="cross_write"> Cross-merchant privilege escalation (write)</label>
+                        <label><input type="checkbox" class="same_read"> Same-merchant privilege escalation (read)</label>
+                        <label><input type="checkbox" class="same_write"> Same-merchant privilege escalation (write)</label>
+                        <label><input type="checkbox" class="token_escalation"> Privilege escalation via leaked tokens</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Affects PCI DSS</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" class="pciDss"> Yes (Significantly increases risk)</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="businessLogic">Affects Business Logic</label>
+                    <select class="businessLogic">
+                        <option value="none" selected>Not selected</option>
+                        <option value="all_merchants">Affects all merchants</option>
+                        <option value="individual_merchant">Affects an individual merchant</option>
+                        <option value="all_customers">Affects all customers</option>
+                        <option value="specific_customers">Affects specific merchant's customers</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group dependency-group" style="display: none;">
+                <h2>Dependency</h2>
+                <label for="dependsOn">This vulnerability depends on:</label>
+                <select class="dependsOn">
+                    <option value="">None</option>
+                    <!-- Dependency options will be populated dynamically -->
+                </select>
+            </div>
+        </div>
+    </template>
+    
+    <script>
+        // --- DATA AND CONSTANTS ---
+        const dataSensitivityOptions = { H: [{ value: "red", text: "Red (Critical)" }, { value: "orange", text: "Orange (High)" }], L: [{ value: "yellow", text: "Yellow (Medium)" }, { value: "green", text: "Green (Low)" }] };
+        const dataSubclassOptions = { red: ["Credit card number", "Bank account number", "SSN", "Driving license number"], orange: ["Merchant PII Private", "Customer PII Private", "Transactional data private"], yellow: ["General business data", "System logs"], green: ["Publicly accessible data"] };
+        const userRoleScores = { new_merchant: 100, manager: 90, admin: 85, customer: 30 };
+        const impactMultipliers = { red: 1.8, orange: 1.4, yellow: 1.0, green: 0.5 };
+        const assetClassMultipliers = { critical: 1.5, high: 1.2, medium: 1.0 };
+        const escalationMultipliers = { cross_read: 0.9, cross_write: 1.0, same_read: 0.6, same_write: 0.9, token: 0.8 };
+        const businessLogicMultipliers = { none: 1.0, all_merchants: 1.8, individual_merchant: 1.4, all_customers: 1.3, specific_customers: 1.1 };
+        const pciDssMultiplier = 2.5;
+        const criticalDataBoost = 1.7;
+        const vectorValues = { AV: { N: 0.85, A: 0.62, L: 0.55, P: 0.2 }, AC: { L: 0.77, H: 0.44 }, PR: { U: { N: 0.85, L: 0.62, H: 0.27 }, C: { N: 0.85, L: 0.68, H: 0.5 } }, UI: { N: 0.85, R: 0.62 }, S: { U: 'U', C: 'C' }, C: { H: 0.56, L: 0.22, N: 0 }, I: { H: 0.56, L: 0.22, N: 0 }, A: { H: 0.56, L: 0.22, N: 0 } };
+
+        // --- DOM ELEMENTS ---
+        const singleAssessmentContainer = document.getElementById('single-vulnerability-assessment');
+        const chainedAssessmentContainer = document.getElementById('chained-vulnerability-assessment');
+        const vulnerabilityTemplate = document.getElementById('vulnerability-template');
+        const chainContainer = document.getElementById('vulnerability-chain-container');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- INITIALIZATION ---
+            setupModeSwitcher();
+            cloneTemplateToSingleForm();
+            setupSingleMode();
+            setupChainedMode();
+            calculateAndDisplaySingleScore(); // Initial calculation for single form
+        });
+
+        // --- SETUP FUNCTIONS ---
+        function setupModeSwitcher() {
+            document.querySelectorAll('input[name="assessment-mode"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    singleAssessmentContainer.style.display = this.value === 'single' ? 'block' : 'none';
+                    chainedAssessmentContainer.style.display = this.value === 'chain' ? 'block' : 'none';
+                    if (this.value === 'chain' && chainContainer.children.length === 0) {
+                        addVulnerabilitySubclass(); // Add the first one automatically
+                    }
+                });
+            });
+        }
+
+        function cloneTemplateToSingleForm() {
+            const templateContent = vulnerabilityTemplate.content.cloneNode(true);
+            const formContainer = document.getElementById('single-vulnerability-form');
+            formContainer.appendChild(templateContent);
+            // Assign unique IDs to the single form elements to avoid conflicts
+            formContainer.querySelectorAll('[class]').forEach(el => {
+                if (el.className) {
+                    el.id = 'single_' + el.className.split(' ')[0];
+                }
+            });
+            attachEventListeners(formContainer);
+        }
+
+        function setupSingleMode() {
+            document.getElementById('calculateBtn').addEventListener('click', calculateAndDisplaySingleScore);
+        }
+
+        function setupChainedMode() {
+            document.getElementById('addVulnerabilityBtn').addEventListener('click', addVulnerabilitySubclass);
+            document.getElementById('calculateChainBtn').addEventListener('click', calculateAndDisplayChainScore);
+            chainContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('remove-subclass-btn')) {
+                    e.target.closest('.vulnerability-subclass').remove();
+                    updateAllDependencyDropdowns();
+                }
+            });
+             chainContainer.addEventListener('input', function(e) {
+                if(e.target.classList.contains('vulnerabilityName')) {
+                    updateAllDependencyDropdowns();
+                }
+            });
+        }
+
+        function addVulnerabilitySubclass() {
+            const subclassId = 'subclass-' + Date.now();
+            const clone = vulnerabilityTemplate.content.cloneNode(true);
+            const subclassDiv = clone.querySelector('.vulnerability-subclass');
+            subclassDiv.id = subclassId;
+            
+            // Show remove button only if it's not the first element
+            if (chainContainer.children.length > 0) {
+                 clone.querySelector('.remove-subclass-btn').style.display = 'block';
+            }
+            clone.querySelector('.dependency-group').style.display = 'block';
+           
+            chainContainer.appendChild(clone);
+            attachEventListeners(subclassDiv);
+            updateAllDependencyDropdowns();
+        }
+
+        // --- EVENT LISTENER ATTACHMENT ---
+        function attachEventListeners(container) {
+            container.querySelector('.confidentiality').addEventListener('change', e => updateDataSensitivityOptions(e.target, 'conf'));
+            container.querySelector('.integrity').addEventListener('change', e => updateDataSensitivityOptions(e.target, 'int'));
+            container.querySelector('.confDataSensitivity').addEventListener('change', e => updateDataSubclassOptions(e.target, 'conf'));
+            container.querySelector('.intDataSensitivity').addEventListener('change', e => updateDataSubclassOptions(e.target, 'int'));
+            
+            // Initial setup for the new form
+            updateDataSensitivityOptions(container.querySelector('.confidentiality'), 'conf');
+            updateDataSensitivityOptions(container.querySelector('.integrity'), 'int');
+        }
+
+        function updateDataSensitivityOptions(selectElement, type) {
+            const container = selectElement.closest('.framework-section');
+            const sensitivitySelect = container.querySelector(`.${type}DataSensitivity`);
+            const subOptionsContainer = container.querySelector(`.${type}SubOptions`);
+            
+            subOptionsContainer.style.display = selectElement.value === 'N' ? 'none' : 'block';
+            sensitivitySelect.innerHTML = '';
+            
+            if (selectElement.value !== 'N') {
+                const options = dataSensitivityOptions[selectElement.value];
+                options.forEach(option => {
+                    const opt = document.createElement('option');
+                    opt.value = option.value;
+                    opt.textContent = option.text;
+                    sensitivitySelect.appendChild(opt);
+                });
+            }
+            updateDataSubclassOptions(sensitivitySelect, type);
+        }
+
+        function updateDataSubclassOptions(sensitivitySelect, type) {
+            const container = sensitivitySelect.closest('.framework-section');
+            const subclassSelect = container.querySelector(`.${type}DataSubclass`);
+            const subclassContainer = container.querySelector(`.${type}SubclassOptions`);
+
+            subclassContainer.style.display = sensitivitySelect.value ? 'block' : 'none';
+            subclassSelect.innerHTML = '';
+
+            if (sensitivitySelect.value) {
+                const options = dataSubclassOptions[sensitivitySelect.value] || [];
+                options.forEach(optionText => {
+                    const opt = document.createElement('option');
+                    opt.value = optionText.toLowerCase().replace(/\s+/g, '_');
+                    opt.textContent = optionText;
+                    subclassSelect.appendChild(opt);
+                });
+            }
+        }
+        
+        function updateAllDependencyDropdowns() {
+            const subclasses = Array.from(chainContainer.querySelectorAll('.vulnerability-subclass'));
+            const options = subclasses.map(sc => ({
+                id: sc.id,
+                name: sc.querySelector('.vulnerabilityName').value || sc.id
+            }));
+
+            subclasses.forEach(currentSc => {
+                const dropdown = currentSc.querySelector('.dependsOn');
+                const currentId = currentSc.id;
+                const selectedValue = dropdown.value;
+                dropdown.innerHTML = '<option value="">None</option>';
+                
+                options.forEach(opt => {
+                    if (opt.id !== currentId) { // Can't depend on itself
+                        const optionEl = document.createElement('option');
+                        optionEl.value = opt.id;
+                        optionEl.textContent = opt.name;
+                        dropdown.appendChild(optionEl);
+                    }
+                });
+                dropdown.value = selectedValue; // Restore selection
+            });
+        }
+
+
+        // --- CORE CALCULATION LOGIC ---
+        function getVulnerabilityData(container) {
+            const data = {};
+            const fields = ["attackVector", "attackComplexity", "userRole", "userInteraction", "scope", "confidentiality", "integrity", "availability", "confDataSensitivity", "intDataSensitivity", "assetClass", "businessLogic"];
+            const checkboxes = ["cross_read", "cross_write", "same_read", "same_write", "token_escalation", "pciDss"];
+
+            fields.forEach(field => data[field] = container.querySelector(`.${field}`).value);
+            checkboxes.forEach(chk => data[chk] = container.querySelector(`.${chk}`).checked);
+
+            data.confSubclass = data.confidentiality === 'N' ? null : container.querySelector('.confDataSensitivity').value;
+            data.intSubclass = data.integrity === 'N' ? null : container.querySelector('.intDataSensitivity').value;
+            
+            // For chain-specific data
+            if(container.classList.contains('vulnerability-subclass')) {
+                data.id = container.id;
+                data.name = container.querySelector('.vulnerabilityName').value || container.id;
+                data.dependsOn = container.querySelector('.dependsOn').value;
+            }
+
+            return data;
+        }
+
+        function calculateScoreFromData(data) {
+            // Helper functions using data object
+            const mapUserRoleToPR = (userRole) => ({ admin: 'L', manager: 'L', new_merchant: 'N', customer: 'N' }[userRole] || 'N');
+            
+            const calculatePrivilegeImpact = (d) => {
+                let impact = 0;
+                let combinedBonus = 1.0;
+                if (d.cross_read) impact += escalationMultipliers.cross_read;
+                if (d.cross_write) impact += escalationMultipliers.cross_write;
+                if (d.same_read) impact += escalationMultipliers.same_read;
+                if (d.same_write) impact += escalationMultipliers.same_write;
+                if (d.token_escalation) impact += escalationMultipliers.token;
+                if (d.cross_read && d.cross_write) combinedBonus = Math.max(combinedBonus, 1.2);
+                if (d.same_read && d.same_write) combinedBonus = Math.max(combinedBonus, 1.15);
+                return impact * combinedBonus;
+            };
+
+            // CVSS Base Score Calculation
+            const pr = mapUserRoleToPR(data.userRole);
+            const iscBase = 1 - ((1 - vectorValues.C[data.confidentiality]) * (1 - vectorValues.I[data.integrity]) * (1 - vectorValues.A[data.availability]));
+            let impactScore;
+            if (data.scope === 'U') {
+                impactScore = 6.42 * iscBase;
+            } else {
+                impactScore = 7.52 * (iscBase - 0.029) - 3.25 * Math.pow(iscBase - 0.02, 15);
+            }
+            const exploitability = 8.22 * vectorValues.AV[data.attackVector] * vectorValues.AC[data.attackComplexity] * vectorValues.PR[data.scope][pr] * vectorValues.UI[data.userInteraction];
+            
+            let cvssBase;
+            if (impactScore <= 0) {
+                cvssBase = 0;
+            } else {
+                cvssBase = (data.scope === 'U') ? Math.min(10, impactScore + exploitability) : Math.min(10, 1.08 * (impactScore + exploitability));
+            }
+            cvssBase = Math.round(cvssBase * 10) / 10;
+
+            // WHISK Multipliers
+            const confMultiplier = data.confSubclass ? impactMultipliers[data.confSubclass] : 1.0;
+            const intMultiplier = data.intSubclass ? impactMultipliers[data.intSubclass] : 1.0;
+            const assetModifier = assetClassMultipliers[data.assetClass] || 1.0;
+            const privilegeImpact = calculatePrivilegeImpact(data);
+            const pciModifier = data.pciDss ? pciDssMultiplier : 1.0;
+            const roleModifier = userRoleScores[data.userRole] / 100;
+            const businessModifier = businessLogicMultipliers[data.businessLogic] || 1.0;
+
+            let dataImpactValue = (confMultiplier + intMultiplier) / 2;
+            if ((data.confSubclass === 'red' || data.confSubclass === 'orange' || data.intSubclass === 'red' || data.intSubclass === 'orange') && !data.pciDss) {
+                dataImpactValue *= criticalDataBoost;
+            }
+
+            let combinedModifier = dataImpactValue * assetModifier * privilegeImpact * pciModifier * roleModifier * businessModifier;
+            combinedModifier = Math.min(combinedModifier, 3.5);
+
+            let baseRisk = cvssBase * combinedModifier;
+            let strictScore = 1000 * Math.pow(baseRisk / 20, 0.85);
+            if (strictScore > 850) {
+                strictScore = 850 + (150 * Math.log10(1 + (strictScore - 850) / 150));
+            }
+            const whiskScore = Math.round(Math.min(1000, Math.max(0, strictScore)));
+
+            return { whiskScore, cvssBase, dataImpactValue, businessModifier, pciModifier };
+        }
+
+        function getRiskLevel(score) {
+            if (score >= 900) return { level: "CRITICAL RISK", color: "#f87171" };
+            if (score >= 700) return { level: "HIGH RISK", color: "#fbbf24" };
+            if (score >= 500) return { level: "MEDIUM RISK", color: "#a3e635" };
+            if (score >= 300) return { level: "LOW RISK", color: "#34d399" };
+            return { level: "MINIMAL RISK", color: "#a1a1aa" };
+        }
+
+
+        // --- UI DISPLAY FUNCTIONS ---
+        function calculateAndDisplaySingleScore() {
+            const container = document.getElementById('single-vulnerability-form');
+            const data = getVulnerabilityData(container);
+            const results = calculateScoreFromData(data);
+            
+            document.getElementById('riskScore').textContent = results.whiskScore;
+            const riskInfo = getRiskLevel(results.whiskScore);
+            document.getElementById('riskLevel').textContent = riskInfo.level;
+            document.getElementById('riskLevel').style.color = riskInfo.color;
+            document.getElementById('baseScore').textContent = results.cvssBase.toFixed(1);
+            document.getElementById('dataImpact').textContent = results.dataImpactValue.toFixed(2) + 'x';
+            document.getElementById('businessImpact').textContent = results.businessModifier.toFixed(1) + 'x';
+            document.getElementById('pciMod').textContent = results.pciModifier.toFixed(1) + 'x';
+        }
+
+        function calculateAndDisplayChainScore() {
+            const subclasses = Array.from(chainContainer.querySelectorAll('.vulnerability-subclass'));
+            if(subclasses.length === 0) return;
+
+            // 1. Get data and scores for all subclasses
+            let allVulns = subclasses.map(sc => {
+                const data = getVulnerabilityData(sc);
+                const results = calculateScoreFromData(data);
+                return { ...data, ...results };
+            });
+
+            // 2. Calculate overall score (using the max score of the chain)
+            const overallScore = Math.max(...allVulns.map(v => v.whiskScore));
+            
+            // 3. Display overall score
+            document.getElementById('overallRiskScore').textContent = overallScore;
+            const overallRiskInfo = getRiskLevel(overallScore);
+            document.getElementById('overallRiskLevel').textContent = overallRiskInfo.level;
+            document.getElementById('overallRiskLevel').style.color = overallRiskInfo.color;
+
+            // 4. Display individual scores
+            const individualScoresContainer = document.getElementById('individual-scores-container');
+            individualScoresContainer.innerHTML = '';
+            allVulns.forEach(vuln => {
+                const riskInfo = getRiskLevel(vuln.whiskScore);
+                const card = document.createElement('div');
+                card.className = 'breakdown-card';
+                card.innerHTML = `
+                    <div class="breakdown-title">${vuln.name}</div>
+                    <div class="breakdown-value" style="color:${riskInfo.color};">${vuln.whiskScore}</div>
+                `;
+                individualScoresContainer.appendChild(card);
+            });
+            
+            // 5. Calculate and display prioritization
+            const { prioritization, riskReduction } = calculatePrioritizationAndReduction(allVulns, overallScore);
+            
+            const prioList = document.getElementById('prioritization-list');
+            prioList.innerHTML = '';
+            prioritization.forEach(p => {
+                 prioList.innerHTML += `<li><span>${p.rank}. Fix: <strong>${p.name}</strong></span><span class="prio-level-${p.rank}">${p.reason}</span></li>`;
+            });
+
+            const reductionList = document.getElementById('risk-reduction-list');
+            reductionList.innerHTML = '';
+            riskReduction.forEach(r => {
+                 reductionList.innerHTML += `<li><span>Fixing <strong>${r.name}</strong>...</span><span>Reduces overall risk by <strong>${r.reduction.toFixed(0)}%</strong></span></li>`;
+            });
+
+
+            // Show the results panel
+            document.getElementById('chain-results-panel').style.display = 'block';
+        }
+
+        function calculatePrioritizationAndReduction(allVulns, currentOverallScore) {
+            // Build dependency graph
+            const dependents = {}; // key: id, value: array of ids that depend on key
+            allVulns.forEach(v => {
+                dependents[v.id] = [];
+            });
+            allVulns.forEach(v => {
+                if (v.dependsOn && dependents[v.dependsOn]) {
+                    dependents[v.dependsOn].push(v.id);
+                }
+            });
+
+            const findDependenciesRecursive = (id, allDeps = new Set()) => {
+                if (dependents[id]) {
+                    dependents[id].forEach(depId => {
+                        if (!allDeps.has(depId)) {
+                            allDeps.add(depId);
+                            findDependenciesRecursive(depId, allDeps);
+                        }
+                    });
+                }
+                return allDeps;
+            };
+
+            // Calculate prioritization
+            const prioritization = allVulns.map(v => {
+                const isDependedOn = Object.values(dependents).some(deps => deps.includes(v.id));
+                const hasDependencies = v.dependsOn !== '';
+                let rank, reason;
+                if (!hasDependencies) {
+                    rank = 1; // Highest priority: no pre-requisites
+                    reason = "Root Cause";
+                } else if (!isDependedOn) {
+                    rank = 3; // Lowest priority: end of a chain
+                    reason = "End of Chain";
+                } else {
+                    rank = 2; // Mid-chain
+                    reason = "Intermediate Step";
+                }
+                return { name: v.name, rank, reason };
+            }).sort((a, b) => a.rank - b.rank);
+            
+            // Calculate risk reduction
+            const riskReduction = allVulns.map(vulnToFix => {
+                const dependentVulns = findDependenciesRecursive(vulnToFix.id);
+                dependentVulns.add(vulnToFix.id);
+                
+                const remainingVulns = allVulns.filter(v => !dependentVulns.has(v.id));
+                const newScore = remainingVulns.length > 0 ? Math.max(...remainingVulns.map(v => v.whiskScore)) : 0;
+                
+                const reduction = currentOverallScore > 0 ? ((currentOverallScore - newScore) / currentOverallScore) * 100 : 100;
+
+                return { name: vulnToFix.name, reduction };
+            }).sort((a,b) => b.reduction - a.reduction);
+
+            return { prioritization, riskReduction };
+        }
+
+    </script>
+</body>
+</html>
